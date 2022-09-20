@@ -21,11 +21,40 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
 
   // LPF DELETE_EFFECT INT_VAR match_opcode = 0x1 END
 
-  // Find cumulative APR mod and swap to cumulative thac0 mod as well as keep APR but cap it at 0.5
-  LPF CLONE_EFFECT INT_VAR silent= 1 match_opcode = 0x1 match_parameter2 = 0 opcode = 0x11c parameter1 = 5 parameter2 = 0 END
-  LPF ALTER_EFFECT INT_VAR silent= 1 match_opcode = 0x1 match_parameter2 = 0 parameter1 = 6 parameter2 = 0 END
+  // CUMULATIVE STUFF
+  // Give a thac0 bonus based on original APR bonus
+  // 1 APR = 0.5 APR + 1 thac0
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=1 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
 
-  // Find flat value setting and give thac0 bonus in exchange for capping it at 3 APR
-  LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 0x1 match_parameter2 = 1 opcode = 0x11c parameter1 = 5 END
+  // 2 APR = 0.5 APR + 1 thac0 + 1 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
+
+  // 3 APR = 0.5 APR + 2 thac0 + 1 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
+
+  // 4 APR = 0.5 APR + 2 thac0 + 2 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
+
+  // 5 APR = 0.5 APR + 3 thac0 + 2 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
+
+  // Cap it at 0.5 APR
+  LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 0x1 match_parameter2 = 0 parameter1 = 6 END
+
+  // FLAT STUFF
+  // Give a thac0 bonus based on original APR bonus
+  // 4 APR = 3 APR + 1 thac0 + 1 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
+
+  // 5 APR = 3 APR + 2 thac0 + 2 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
+
+  // Cap it at set 3 APR
   LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 0x1 match_parameter2 = 1 parameter1 = 3  END
 BUT_ONLY
