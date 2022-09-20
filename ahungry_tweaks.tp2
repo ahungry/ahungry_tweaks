@@ -6,7 +6,7 @@ BEGIN ~Ahungry's Tweaks~ DESIGNATED 1 LABEL ahungry_tweaks_prelude
 REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet iwdee~) ~Game not supported.~
 
 PRINT ~This component caps +APR items at 1/2 APR per item, in
-exchange for a thac0 bonus (some mods add insanely high +APR effects - in addition,
+exchange for a thac0/dmg bonus (some mods add insanely high +APR effects - in addition,
 the basic game APR has never been balanced when a +2 Belm/Kundane offhand is
 better than a +4 or +5 offhand due to the extra swing being added on the main hand).~
 
