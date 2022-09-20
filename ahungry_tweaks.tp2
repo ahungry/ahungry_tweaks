@@ -10,7 +10,7 @@ exchange for a thac0/dmg bonus (some mods add insanely high +APR effects - in ad
 the basic game APR has never been balanced when a +2 Belm/Kundane offhand is
 better than a +4 or +5 offhand due to the extra swing being added on the main hand).~
 
-BEGIN ~Ahungry's Tweaks: Balance Item +APR~ DESIGNATED 1000 LABEL ahungry_tweaks_apr
+BEGIN ~Balance Item +APR (cap +APR at 0.5 per item, replace w/thac0+dmg bonuses)~ DESIGNATED 1000 LABEL ahungry_tweaks_apr
 REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
 // https://gibberlings3.github.io/iesdp/opcodes/bgee.htm
