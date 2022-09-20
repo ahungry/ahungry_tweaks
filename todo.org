@@ -1,0 +1,4 @@
+* Various ideas
+
+** Add an infravision update
+Give each infravision person bonus thac0 (at night, or always)
