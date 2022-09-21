@@ -70,14 +70,18 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // 4 APR = 3 APR + 1 thac0 + 1 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11d parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11e parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11d parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11e parameter1=1 parameter2=0 END
 
   // 5 APR = 3 APR + 2 thac0 + 2 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11d parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11e parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11d parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11e parameter1=2 parameter2=0 END
 
   // Cap it at set 3 APR
   LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 parameter1=3  END
@@ -90,14 +94,18 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // 4 APR = 3 APR + 1 thac0 + 1 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11d parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11e parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11d parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11e parameter1=1 parameter2=0 END
 
   // 5 APR = 3 APR + 2 thac0 + 2 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11d parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11e parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11d parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11e parameter1=2 parameter2=0 END
 
   // Cap it at set 3 APR
   LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 parameter1=3  END
