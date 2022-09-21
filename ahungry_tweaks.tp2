@@ -10,7 +10,7 @@ exchange for a thac0/dmg bonus (some mods add insanely high +APR effects - in ad
 the basic game APR has never been balanced when a +2 Belm/Kundane offhand is
 better than a +4 or +5 offhand due to the extra swing being added on the main hand).~
 
-BEGIN ~Balance Item +APR (cap +APR at 0.5 per item, replace w/thac0+dmg bonuses)~ DESIGNATED 1000 LABEL ahungry_tweaks_apr
+BEGIN ~Balance Item +APR (cap +APR at 1/2 APR per item, replace w/ thac0 + dmg bonuses)~ DESIGNATED 1000 LABEL ahungry_tweaks_apr
 REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
 // https://gibberlings3.github.io/iesdp/opcodes/bgee.htm
@@ -26,19 +26,27 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // 1 APR = 0.5 APR + 1 thac0
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=1 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
 
-  // 2 APR = 0.5 APR + 1 thac0 + 1 damage
+  // 1.5 to 2 APR = 0.5 APR + 1 thac0 + 1 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
 
-  // 3 APR = 0.5 APR + 2 thac0 + 1 damage
+  // 2.5 to 3 APR = 0.5 APR + 2 thac0 + 1 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
 
-  // 4 APR = 0.5 APR + 2 thac0 + 2 damage
+  // 3.5 to 4 APR = 0.5 APR + 2 thac0 + 2 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
 
-  // 5 APR = 0.5 APR + 3 thac0 + 2 damage
+  // 4.5 to 5 APR = 0.5 APR + 3 thac0 + 2 damage
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
 
