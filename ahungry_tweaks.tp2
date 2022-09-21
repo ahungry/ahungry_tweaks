@@ -58,3 +58,45 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // Cap it at set 3 APR
   LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 0x1 match_parameter2 = 1 parameter1 = 3  END
 BUT_ONLY
+
+BEGIN ~Creature Adjustments~ DESIGNATED 2000 LABEL ahungry_tweaks_creatures
+REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
+
+PRINT ~
+Do you want to remove creature backstab immunity (class and item immunity will remain)?
+
+1 - yes
+2 - no
+~
+ACTION_READLN ~remove_backstab_imm~
+
+OUTER_WHILE ((!IS_AN_INT remove_backstab_imm) OR remove_backstab_imm > 2 OR remove_backstab_imm < 1) BEGIN
+  PRINT ~Please enter '1' or '2'.~
+  ACTION_READLN ~remove_backstab_imm~
+END
+
+PRINT ~
+Do you want to remove creature timestop immunity?
+
+1 - yes
+2 - no
+~
+ACTION_READLN ~remove_timestop_imm~
+
+OUTER_WHILE ((!IS_AN_INT remove_timestop_imm) OR remove_timestop_imm > 2 OR remove_timestop_imm < 1) BEGIN
+  PRINT ~Please enter '1' or '2'.~
+  ACTION_READLN ~remove_timestop_imm~
+END
+
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
+    // Or we can remove the effect
+    PATCH_IF (remove_backstab_imm = 1) BEGIN
+        LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=292 END
+    END
+
+    // Also remove immunity to timestop
+    PATCH_IF (remove_timestop_imm = 1) BEGIN
+        LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=310 END
+    END
+BUT_ONLY
