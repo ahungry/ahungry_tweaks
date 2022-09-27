@@ -5,6 +5,9 @@ VERSION 1.0
 BEGIN ~Ahungry's Tweaks~ DESIGNATED 1 LABEL ahungry_tweaks_prelude
 REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet iwdee~) ~Game not supported.~
 
+OUTER_SET remove_backstab_imm = 0
+OUTER_SET remove_timestop_imm = 0
+
 PRINT ~
 In an effort to balance out some mega-mod added items (some of the
 older content) with insane boosts of things like +3 to +5 attacks per
@@ -114,35 +117,47 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 parameter1=3  END
 BUT_ONLY
 
-BEGIN ~Creature Adjustments~ DESIGNATED 2000 LABEL ahungry_tweaks_creatures
+// BEGIN ~Creature Adjustments~ DESIGNATED 2000 LABEL ahungry_tweaks_creatures
+// REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
+
+// PRINT ~
+// Do you want to remove creature backstab immunity (class and item immunity will remain)?
+
+// 1 - yes
+// 2 - no
+// ~
+// ACTION_READLN ~remove_backstab_imm~
+
+// OUTER_WHILE ((!IS_AN_INT remove_backstab_imm) OR remove_backstab_imm > 2 OR remove_backstab_imm < 1) BEGIN
+//   PRINT ~Please enter '1' or '2'.~
+//   ACTION_READLN ~remove_backstab_imm~
+// END
+
+// PRINT ~
+// Do you want to remove creature timestop immunity?
+
+// 1 - yes
+// 2 - no
+// ~
+// ACTION_READLN ~remove_timestop_imm~
+
+// OUTER_WHILE ((!IS_AN_INT remove_timestop_imm) OR remove_timestop_imm > 2 OR remove_timestop_imm < 1) BEGIN
+//   PRINT ~Please enter '1' or '2'.~
+//   ACTION_READLN ~remove_timestop_imm~
+// END
+
+BEGIN ~Creatures: Remove backstab immunity?~ DESIGNATED 2000 LABEL ahungry_tweaks_cre_backstab
 REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
-PRINT ~
-Do you want to remove creature backstab immunity (class and item immunity will remain)?
+OUTER_SET remove_backstab_imm = 1
 
-1 - yes
-2 - no
-~
-ACTION_READLN ~remove_backstab_imm~
+BEGIN ~Creatures: Remove timestop immunity?~ DESIGNATED 3000 LABEL ahungry_tweaks_cre_timestop
+REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
-OUTER_WHILE ((!IS_AN_INT remove_backstab_imm) OR remove_backstab_imm > 2 OR remove_backstab_imm < 1) BEGIN
-  PRINT ~Please enter '1' or '2'.~
-  ACTION_READLN ~remove_backstab_imm~
-END
+OUTER_SET remove_timestop_imm = 1
 
-PRINT ~
-Do you want to remove creature timestop immunity?
-
-1 - yes
-2 - no
-~
-ACTION_READLN ~remove_timestop_imm~
-
-OUTER_WHILE ((!IS_AN_INT remove_timestop_imm) OR remove_timestop_imm > 2 OR remove_timestop_imm < 1) BEGIN
-  PRINT ~Please enter '1' or '2'.~
-  ACTION_READLN ~remove_timestop_imm~
-END
-
+BEGIN ~Creatures: Apply adjustments?~ DESIGNATED 4000 LABEL ahungry_tweaks_creatures
+REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 2000 OR MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 3000) ""
 
 COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
     // Or we can remove the effect
