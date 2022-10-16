@@ -13,16 +13,15 @@ In an effort to balance out some mega-mod added items (some of the
 older content) with insane boosts of things like +3 to +5 attacks per
 round, this component normalizes all +APR items as such:
 
-- 1 APR -> 1/2 APR, +1 thac0, +0 damage
-- 1.5 to 2 APR -> 1/2 APR, +1 thac0, +1 damage
-- 2.5 to 3 APR -> 1/2 APR, +2 thac0, +1 damage
-- 3.5 to 4 APR -> 1/2 APR, +2 thac0, +2 damage
-- 4.5 to 5 APR -> 1/2 APR, +3 thac0, +2 damage
+- 1.5 to 2 APR -> 1 APR, +1 thac0, +1 damage
+- 2.5 to 3 APR -> 1 APR, +2 thac0, +1 damage
+- 3.5 to 4 APR -> 1 APR, +2 thac0, +2 damage
+- 4.5 to 5 APR -> 1 APR, +3 thac0, +2 damage
 
 The bonuses should apply to both the mainhand and offhand weapons.
 ~
 
-BEGIN ~Balance Item +APR (cap +APR at 1/2 APR per item, replace w/ thac0 + dmg bonuses)~ DESIGNATED 1000 LABEL ahungry_tweaks_apr
+BEGIN ~Balance Item +APR (cap +APR at 1 APR per item, replace w/ thac0 + dmg bonuses)~ DESIGNATED 1000 LABEL ahungry_tweaks_apr
 REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
 // https://gibberlings3.github.io/iesdp/opcodes/bgee.htm
@@ -36,34 +35,42 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // CUMULATIVE STUFF
   // Give a thac0 bonus based on original APR bonus
   // 1 APR = 0.5 APR + 1 thac0
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=1 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
+  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=1 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
 
-  // 1.5 to 2 APR = 0.5 APR + 1 thac0 + 1 damage
+  // 1.5 to 2 APR = 1 APR + 1 thac0 + 1 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
 
-  // 2.5 to 3 APR = 0.5 APR + 2 thac0 + 1 damage
+  // 2.5 to 3 APR = 1 APR + 2 thac0 + 1 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
 
-  // 3.5 to 4 APR = 0.5 APR + 2 thac0 + 2 damage
+  // 3.5 to 4 APR = 1 APR + 2 thac0 + 2 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
 
-  // 4.5 to 5 APR = 0.5 APR + 3 thac0 + 2 damage
+  // 4.5 to 5 APR = 1 APR + 3 thac0 + 2 damage
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
   LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
 
-  // Cap it at 0.5 APR - this works without checking p1 because we won't really have 0x1 with p1 = 0
-  LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 0x1 match_parameter2 = 0 parameter1 = 6 END
+  // Cap it at 1 APR - this works without checking p1 because we won't really have 0x1 with p1 = 0
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 parameter1=1 END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 parameter1=1 END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 parameter1=1 END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 parameter1=1 END
+
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 parameter1=1 END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 parameter1=1 END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 parameter1=1 END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 parameter1=1 END
 
   // NOTE: For the FLAT and FINAL stuff, I'm catching a TON of ranged weapons (bows) - in early
   // testing, I think this is because I'm accidentally upping APR to 3 (not just lowering it)
@@ -170,3 +177,65 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
         LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=310 END
     END
 BUT_ONLY
+
+// BEGIN ~Bench: Check time to iterate for item matches~ DESIGNATED 5000 LABEL ahungry_tweaks_bench
+// REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
+
+// COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
+//   // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=6 match_parameter2=0 parameter1=2 END
+//   READ_LONG 0x6a  ft_offset
+//   READ_SHORT 0x70 ft_count
+
+//   // feature block is 48 bytes
+//   FOR (index = 0 ; index < ft_count; ++index) BEGIN
+//     READ_SHORT (ft_offset + (48 * index)) my_opcode
+//     READ_LONG (ft_offset + (48 * index) + 0x4) my_param1
+//     READ_LONG (ft_offset + (48 * index) + 0x8) my_param2
+
+//     PATCH_IF (my_opcode = 0x1 AND my_param2 = 0) THEN BEGIN
+//       PATCH_PRINT ~found...~
+//     END
+//   END
+// BUT_ONLY
+
+// This seems like a fun idea, but I think the world map boundaries are hard coded, so it
+// simply won't work
+// // Good reference: https://github.com/WeiDUorg/weidu/blob/a4048b11e6904f39ea1f956a36018e5d9a6e8e5c/src/tph/include/cd_functions.tpa#L121
+// COPY_EXISTING_REGEXP GLOB ~^.+\.are~ ~override~
+//     // This is for adding to an area file...
+//     // LPF fj_are_structure INT_VAR fj_flags = 0b0000000000000100 END // Full party + auto save
+//     // LPF fj_are_structure
+//     //   INT_VAR fj_flags = 0b0000000000000000
+//     //   STR_VAR fj_structure_type = region
+//     // END // No party + no save?
+
+//     // https://gibberlings3.github.io/iesdp/file_formats/ie_formats/are_v1.htm
+//     // READ_LONG 0x20 north_flags
+//     // READ_LONG 0x2c east_flags
+//     // READ_LONG 0x38 south_flags
+//     // READ_LONG 0x44 west_flags
+
+//     // WRITE_SHORT 0x20 0x00
+//     // WRITE_SHORT 0x2c 0x00
+//     // WRITE_SHORT 0x38 0x00
+//     // WRITE_SHORT 0x44 0x00
+
+//     // LPF ALTER_AREA_REGION INT_VAR flag_party_required = 0 END
+//     READ_SHORT 0x005a region_count
+//     READ_LONG  0x005c region_offset
+
+//     // PATCH_PRINT "Regions: %region_count%"
+
+//     // When it says 3rd bit, it means 0b0000000000000X00
+//     FOR (index = 0; index < region_count; ++index) BEGIN
+//         //READ_LONG (region_offset + 0x0060 + (0xC4 * index)) reg_flags
+//         //PATCH_PRINT "The region flags: %reg_flags%"
+//         //PATCH_IF (reg_flags BAND 0xFFFF) BEGIN
+//             //PATCH_PRINT "Found a bit, lets flip it..."
+//             // WRITE_LONG (region_offset + 0x0060 + (0xC4 * index)) 0x0000 // (THIS BAND 0b11111011)
+//         //END
+//         WRITE_BYTE (region_offset + 0x0060 + (0xC4 * index)) (THIS BAND 0b11111011)
+//     END
+
+//     // LPF ALTER_AREA_REGION INT_VAR flag_party_required = 1 STR_VAR region_name = "" END
+// BUT_ONLY
