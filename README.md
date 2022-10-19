@@ -84,7 +84,7 @@ This component addresses the fact that DH does a hard copy of AR0700
 Promenade, and flag South Central BG under BG0700.
 
 The entrance can *still* be hard to find though, so see the
-screenshot (I had to draw an arrow, the door cursor disappeared whenI
+screenshot (I had to draw an arrow, the door cursor disappeared when I
 took the screenshot):
 
 ![oversighthq](https://github.com/ahungry/ahungry_tweaks/blob/master/oversighthq.png)
