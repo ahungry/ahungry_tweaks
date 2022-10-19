@@ -11,9 +11,10 @@ Various tweaks that I want in my own setup, and may be useful in yours.
     - [Creatures](#creatures)
         - [Remove backstab immunity from creatures (not classes/items)](#remove-backstab-immunity-from-creatures-not-classesitems)
         - [Remove timestop immunity from creatures](#remove-timestop-immunity-from-creatures)
+    - [Mods](#mods)
+        - [Fix missing Oversight HQ door in Dark Horizons on EET](#fix-missing-oversight-hq-door-in-dark-horizons-on-eet)
 
 <!-- markdown-toc end -->
-
 
 # Components
 
