@@ -178,6 +178,49 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
     END
 BUT_ONLY
 
+BEGIN ~Mods: Fix missing Oversight HQ door in Dark Horizons on EET?~ DESIGNATED 5000 LABEL ahungry_tweaks_mods_oversight_hq
+REQUIRE_PREDICATE (FILE_EXISTS_IN_GAME ~XCM0750.ARE~) ""
+
+COPY_EXISTING "BG0700.are" ~override~
+  PATCH_IF (FILE_EXISTS_IN_GAME ~CM0750.ARE~) BEGIN
+    LPF ADD_AREA_REGION_TRIGGER
+      SPRINT ab_RT_Name ~Door0750~
+      SET ab_RT_Type 2
+      SET ab_RT_BbLX 3704 // Left
+      SET ab_RT_BbLY 2260 // Top
+      SET ab_RT_BbHX 3825 // Right
+      SET ab_RT_BbHY 2325 // Bottom
+      SET ab_RT_VxPr 5    // Vertex pairs
+      SET ab_RT_CuId 30   // Cursor number
+      SPRINT ab_RT_Dest ~CM0750.ARE~
+      SPRINT ab_RT_EntN ~Exit0700~
+      SET ab_RT_Fbit 0x2 // flag bits, party required
+      SET ab_RT_Itxt ~Oversight HQ~ // Legacy mod AR0700.are didn't mention this at all
+      SET ab_RT_TDtD 0 // Trap detection difficulty
+      SET ab_RT_TRmD 0 // Trap Removal Difficulty
+      SET ab_RT_TSet 0 // Trap set
+      SET ab_RT_TDet 0 // Trap is detected
+      SET ab_RT_LPoX 3764 // Launch point X
+      SET ab_RT_LPoY 2292 // Launch point Y
+      SPRINT ab_RT_KeyI ~~ // None
+      SET ab_RT_Rbcs 0x0 // None
+      SET ab_RT_ALPX 0
+      SET ab_RT_ALPY 0
+      // SET ab_RT_Dial // Dialog - PST only
+      SET ab_RT_Vx_X_0 3704
+      SET ab_RT_Vx_Y_0 2304
+      SET ab_RT_Vx_X_1 3812
+      SET ab_RT_Vx_Y_1 2259
+      SET ab_RT_Vx_X_2 3825
+      SET ab_RT_Vx_Y_2 2277
+      SET ab_RT_Vx_X_3 3717
+      SET ab_RT_Vx_Y_3 2325
+      SET ab_RT_Vx_X_4 3704
+      SET ab_RT_Vx_Y_4 2304
+    END
+  END
+BUT_ONLY
+
 // BEGIN ~Bench: Check time to iterate for item matches~ DESIGNATED 5000 LABEL ahungry_tweaks_bench
 // REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
