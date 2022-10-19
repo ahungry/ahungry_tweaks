@@ -87,4 +87,4 @@ The entrance can *still* be hard to find though, so see the
 screenshot (I had to draw an arrow, the door cursor disappeared whenI
 took the screenshot):
 
-[oversighthq](https://github.com/ahungry/ahungry_tweaks/blob/master/oversighthq.png)
+![oversighthq](https://github.com/ahungry/ahungry_tweaks/blob/master/oversighthq.png)
