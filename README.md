@@ -7,7 +7,7 @@ Various tweaks that I want in my own setup, and may be useful in yours.
 
 - [Ahungry Tweaks](#ahungry-tweaks)
 - [Components](#components)
-    - [Balance Item +APR (cap +APR at 1/2 APR per item, replace w/ thac0 + dmg bonuses)](#balance-item-apr-cap-apr-at-12-apr-per-item-replace-w-thac0--dmg-bonuses)
+    - [Balance Item +APR (cap +APR at 1 APR per item, replace w/ thac0 + dmg bonuses)](#balance-item-apr-cap-apr-at-1-apr-per-item-replace-w-thac0--dmg-bonuses)
     - [Creatures](#creatures)
         - [Remove backstab immunity from creatures (not classes/items)](#remove-backstab-immunity-from-creatures-not-classesitems)
         - [Remove timestop immunity from creatures](#remove-timestop-immunity-from-creatures)
@@ -18,17 +18,16 @@ Various tweaks that I want in my own setup, and may be useful in yours.
 
 # Components
 
-## Balance Item +APR (cap +APR at 1/2 APR per item, replace w/ thac0 + dmg bonuses)
+## Balance Item +APR (cap +APR at 1 APR per item, replace w/ thac0 + dmg bonuses)
 
 In an effort to balance out some mega-mod added items (some of the
 older content) with insane boosts of things like +3 to +5 attacks per
 round, this component normalizes all +APR items as such:
 
-- 1 APR -> 1/2 APR, +1 thac0, +0 damage
-- 1.5 to 2 APR -> 1/2 APR, +1 thac0, +1 damage
-- 2.5 to 3 APR -> 1/2 APR, +2 thac0, +1 damage
-- 3.5 to 4 APR -> 1/2 APR, +2 thac0, +2 damage
-- 4.5 to 5 APR -> 1/2 APR, +3 thac0, +2 damage
+- 1.5 to 2 APR -> 1 APR, +1 thac0, +1 damage
+- 2.5 to 3 APR -> 1 APR, +2 thac0, +1 damage
+- 3.5 to 4 APR -> 1 APR, +2 thac0, +2 damage
+- 4.5 to 5 APR -> 1 APR, +3 thac0, +2 damage
 
 The bonuses should apply to both the mainhand and offhand weapons.
 
