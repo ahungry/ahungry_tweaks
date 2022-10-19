@@ -1,5 +1,22 @@
 # Ahungry Tweaks
 
+Various tweaks that I want in my own setup, and may be useful in yours.
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Ahungry Tweaks](#ahungry-tweaks)
+- [Components](#components)
+    - [Balance Item +APR (cap +APR at 1/2 APR per item, replace w/ thac0 + dmg bonuses)](#balance-item-apr-cap-apr-at-12-apr-per-item-replace-w-thac0--dmg-bonuses)
+    - [Creatures](#creatures)
+        - [Remove backstab immunity from creatures (not classes/items)](#remove-backstab-immunity-from-creatures-not-classesitems)
+        - [Remove timestop immunity from creatures](#remove-timestop-immunity-from-creatures)
+
+<!-- markdown-toc end -->
+
+
+# Components
+
 ## Balance Item +APR (cap +APR at 1/2 APR per item, replace w/ thac0 + dmg bonuses)
 
 In an effort to balance out some mega-mod added items (some of the
@@ -53,3 +70,20 @@ We aren't in JoJo's Bizarre Adventure though, so this component offers
 the ability to remove this "immunity" (I would think of timestop as
 "super speed", not a status ailment, so immunity being removed isn't
 game breaking to me).
+
+## Mods
+
+Miscellaneous fixes or adjustments for third party mods (perhaps with
+a focus on fixes to critical failures).
+
+### Fix missing Oversight HQ door in Dark Horizons on EET
+
+This component addresses the fact that DH does a hard copy of AR0700
+(South Central BG), while EET will re-assign AR0700 to Waukeen's
+Promenade, and flag South Central BG under BG0700.
+
+The entrance can *still* be hard to find though, so see the
+screenshot (I had to draw an arrow, the door cursor disappeared whenI
+took the screenshot):
+
+[oversighthq](https://github.com/ahungry/ahungry_tweaks/blob/master/oversighthq.png)
