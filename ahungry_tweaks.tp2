@@ -224,64 +224,49 @@ COPY_EXISTING "BG0700.are" ~override~
   END
 BUT_ONLY
 
-// BEGIN ~Bench: Check time to iterate for item matches~ DESIGNATED 5000 LABEL ahungry_tweaks_bench
-// REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
+BEGIN ~Items: Allow +stat tomes to be usable by all (aka Wizard Slayer)?~ DESIGNATED 6000 LABEL ahungry_tweaks_items_tomes
 
-// COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
-//   // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=6 match_parameter2=0 parameter1=2 END
-//   READ_LONG 0x6a  ft_offset
-//   READ_SHORT 0x70 ft_count
+COPY_EXISTING_REGEXP GLOB ~^book0[345678]\.itm~ ~override~ //copies all item files
+  PATCH_IF (SOURCE_SIZE > 0x71) BEGIN // avoid crashing on empty items
+    // a 0 indicates usable, so just zero out all the usability bytes
+    // General usability flags (alignment/classes)
+    WRITE_BYTE 0x1E 0x0
+    WRITE_BYTE 0x1F 0x0
+    WRITE_BYTE 0x20 0x0
+    WRITE_BYTE 0x21 0x0
+    // Kit usability flags
+    WRITE_BYTE 0x29 0x0
+    WRITE_BYTE 0x2b 0x0
+    WRITE_BYTE 0x2d 0x0
+    WRITE_BYTE 0x2f 0x0
 
-//   // feature block is 48 bytes
-//   FOR (index = 0 ; index < ft_count; ++index) BEGIN
-//     READ_SHORT (ft_offset + (48 * index)) my_opcode
-//     READ_LONG (ft_offset + (48 * index) + 0x4) my_param1
-//     READ_LONG (ft_offset + (48 * index) + 0x8) my_param2
+    // Tutorial from weidu for adjusting usability of items
+    // READ_BYTE    0x20 mage //reads the byte containing the mage usability flag
+    // PATCH_IF ((mage BAND 0b00000100) = 0b00000000) BEGIN // if it is usable by mages
+    //   READ_BYTE    0x1E bard //reads the byte containing bard usability flag
+    //   READ_SHORT    0x1C type //reads the byte containing item type
+    //   PATCH_IF (type = 67) OR (type = 2) BEGIN // if it is a robe or armor
+    //     WRITE_BYTE    0x1E (bard BAND 0b10111111)  // makes usable by bards
+    //   END
+    // END
+  END
+BUT_ONLY_IF_IT_CHANGES
 
-//     PATCH_IF (my_opcode = 0x1 AND my_param2 = 0) THEN BEGIN
-//       PATCH_PRINT ~found...~
-//     END
-//   END
-// BUT_ONLY
+BEGIN ~Items: Allow potions to be usable by all?~ DESIGNATED 7000 LABEL ahungry_tweaks_items_potions
 
-// This seems like a fun idea, but I think the world map boundaries are hard coded, so it
-// simply won't work
-// // Good reference: https://github.com/WeiDUorg/weidu/blob/a4048b11e6904f39ea1f956a36018e5d9a6e8e5c/src/tph/include/cd_functions.tpa#L121
-// COPY_EXISTING_REGEXP GLOB ~^.+\.are~ ~override~
-//     // This is for adding to an area file...
-//     // LPF fj_are_structure INT_VAR fj_flags = 0b0000000000000100 END // Full party + auto save
-//     // LPF fj_are_structure
-//     //   INT_VAR fj_flags = 0b0000000000000000
-//     //   STR_VAR fj_structure_type = region
-//     // END // No party + no save?
+COPY_EXISTING_REGEXP GLOB ~.*potn.*\.itm~ ~override~ //copies all item files
+  PATCH_IF (SOURCE_SIZE > 0x71) BEGIN // avoid crashing on empty items
+    // a 0 indicates usable, so just zero out all the usability bytes
+    // General usability flags (alignment/classes)
+    WRITE_BYTE 0x1E 0x0
+    WRITE_BYTE 0x1F 0x0
+    WRITE_BYTE 0x20 0x0
+    WRITE_BYTE 0x21 0x0
 
-//     // https://gibberlings3.github.io/iesdp/file_formats/ie_formats/are_v1.htm
-//     // READ_LONG 0x20 north_flags
-//     // READ_LONG 0x2c east_flags
-//     // READ_LONG 0x38 south_flags
-//     // READ_LONG 0x44 west_flags
-
-//     // WRITE_SHORT 0x20 0x00
-//     // WRITE_SHORT 0x2c 0x00
-//     // WRITE_SHORT 0x38 0x00
-//     // WRITE_SHORT 0x44 0x00
-
-//     // LPF ALTER_AREA_REGION INT_VAR flag_party_required = 0 END
-//     READ_SHORT 0x005a region_count
-//     READ_LONG  0x005c region_offset
-
-//     // PATCH_PRINT "Regions: %region_count%"
-
-//     // When it says 3rd bit, it means 0b0000000000000X00
-//     FOR (index = 0; index < region_count; ++index) BEGIN
-//         //READ_LONG (region_offset + 0x0060 + (0xC4 * index)) reg_flags
-//         //PATCH_PRINT "The region flags: %reg_flags%"
-//         //PATCH_IF (reg_flags BAND 0xFFFF) BEGIN
-//             //PATCH_PRINT "Found a bit, lets flip it..."
-//             // WRITE_LONG (region_offset + 0x0060 + (0xC4 * index)) 0x0000 // (THIS BAND 0b11111011)
-//         //END
-//         WRITE_BYTE (region_offset + 0x0060 + (0xC4 * index)) (THIS BAND 0b11111011)
-//     END
-
-//     // LPF ALTER_AREA_REGION INT_VAR flag_party_required = 1 STR_VAR region_name = "" END
-// BUT_ONLY
+    // Kit usability flags
+    WRITE_BYTE 0x29 0x0
+    WRITE_BYTE 0x2b 0x0
+    WRITE_BYTE 0x2d 0x0
+    WRITE_BYTE 0x2f 0x0
+  END
+BUT_ONLY_IF_IT_CHANGES
