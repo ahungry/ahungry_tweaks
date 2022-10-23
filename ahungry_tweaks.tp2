@@ -270,3 +270,58 @@ COPY_EXISTING_REGEXP GLOB ~.*potn.*\.itm~ ~override~ //copies all item files
     WRITE_BYTE 0x2f 0x0
   END
 BUT_ONLY_IF_IT_CHANGES
+
+
+// #208 (0xD0) op208.html Variants: PST
+// Parameter #1:	Minimum Value
+// Parameter #2:	Irrelevant
+// Description:
+// The targeted creature(s) HP value will not drop below the value specified by the Minimum Value field.
+// This effect sets MINHITPOINTS to Minimum Value.
+
+// Lets find all the items in game that contain that opcode
+// COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
+//   LPF DELETE_EFFECT INT_VAR silent=1 match_opcode=0xd0 END
+// BUT_ONLY
+PRINT ~This component can fix invincible trolls due to bad
+script conditions in a large mod setup (unable to ever die).
+However, it will also remove the necessity to hit them with fire/acid first, which
+could make the game easier than it should be (or you can play by the honor
+system and keep your fireballs loaded for troll battles).
+~
+
+BEGIN ~Items: Remove minhp1/monhp1 items from trolls?~ DESIGNATED 8000 LABEL ahungry_tweaks_items_hp
+
+// Try to find the trolls
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
+  // Build up a list of everyone who uses this to be immune to death
+  READ_LONG  0x2bc itm_off
+  READ_LONG  0x2c0 itm_num
+  TO_LOWER SOURCE_RES
+
+  SET is_troll = 0
+  SET is_demon = 0
+  SET is_invincible = 0
+
+  FOR (index = 0 ; index < itm_num ; ++index) BEGIN // searches through items
+    READ_ASCII (itm_off + (0x14 * index)) item
+    TO_LOWER item
+
+    PATCH_IF (is_troll = 0 AND "%item%" STRING_COMPARE_REGEXP "^troll\(reg\|imm\)" = 0) BEGIN
+      SET is_troll = 1
+    END
+    PATCH_IF (is_invincible = 0 AND "%item%" STRING_COMPARE_REGEXP "^\(minhp\|monhp\)1" = 0) BEGIN
+      SET is_invincible = 1
+    END
+    // PATCH_IF (is_demon = 0 AND "%item%" STRING_COMPARE_REGEXP "^\(ringdemn\)" = 0) BEGIN
+    //   SET is_demon = 1
+    //   PATCH_PRINT ~Detected a demon: %SOURCE_RES%~
+    // END
+  END
+
+  PATCH_IF (is_invincible AND (is_troll = 1 OR is_demon = 1)) BEGIN
+    PATCH_PRINT ~Detected and fixed an invincible troll: %SOURCE_RES%~
+    LPF DELETE_CRE_ITEM STR_VAR item_to_delete = "monhp1" END
+    LPF DELETE_CRE_ITEM STR_VAR item_to_delete = "minhp1" END
+  END
+BUT_ONLY
