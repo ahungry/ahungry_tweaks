@@ -28,100 +28,105 @@ REQUIRE_PREDICATE (MOD_IS_INSTALLED ~ahungry_tweaks/ahungry_tweaks.tp2~ 1) ""
 
 // Super rudimentary - iterate all items and remove APR opcode
 COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
-  // LPF DELETE_EFFECT INT_VAR match_opcode = 62 match_parameter2 = 0 END
+  READ_SHORT 0x1c item_type
 
-  // LPF DELETE_EFFECT INT_VAR match_opcode = 0x1 END
+  // Monster items can be type 0 (misc) - avoid patching them
+  PATCH_IF (item_type != 0) BEGIN
+    // LPF DELETE_EFFECT INT_VAR match_opcode = 62 match_parameter2 = 0 END
 
-  // CUMULATIVE STUFF
-  // Give a thac0 bonus based on original APR bonus
-  // 1 APR = 0.5 APR + 1 thac0
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=1 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
+    // LPF DELETE_EFFECT INT_VAR match_opcode = 0x1 END
 
-  // 1.5 to 2 APR = 1 APR + 1 thac0 + 1 damage
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
+    // CUMULATIVE STUFF
+    // Give a thac0 bonus based on original APR bonus
+    // 1 APR = 0.5 APR + 1 thac0
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=1 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
 
-  // 2.5 to 3 APR = 1 APR + 2 thac0 + 1 damage
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
+    // 1.5 to 2 APR = 1 APR + 1 thac0 + 1 damage
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11c parameter1=1 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
 
-  // 3.5 to 4 APR = 1 APR + 2 thac0 + 2 damage
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
+    // 2.5 to 3 APR = 1 APR + 2 thac0 + 1 damage
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 opcode=0x11d parameter1=1 parameter2=0 END
 
-  // 4.5 to 5 APR = 1 APR + 3 thac0 + 2 damage
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
+    // 3.5 to 4 APR = 1 APR + 2 thac0 + 2 damage
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11c parameter1=2 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
 
-  // Cap it at 1 APR - this works without checking p1 because we won't really have 0x1 with p1 = 0
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 parameter1=1 END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 parameter1=1 END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 parameter1=1 END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 parameter1=1 END
+    // 4.5 to 5 APR = 1 APR + 3 thac0 + 2 damage
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11c parameter1=3 parameter2=0 END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 opcode=0x11d parameter1=2 parameter2=0 END
 
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 parameter1=1 END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 parameter1=1 END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 parameter1=1 END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 parameter1=1 END
+    // Cap it at 1 APR - this works without checking p1 because we won't really have 0x1 with p1 = 0
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=2 match_parameter2=0 parameter1=1 END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=3 match_parameter2=0 parameter1=1 END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=0 parameter1=1 END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=0 parameter1=1 END
 
-  // NOTE: For the FLAT and FINAL stuff, I'm catching a TON of ranged weapons (bows) - in early
-  // testing, I think this is because I'm accidentally upping APR to 3 (not just lowering it)
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=7 match_parameter2=0 parameter1=1 END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=8 match_parameter2=0 parameter1=1 END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=0 parameter1=1 END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=0 parameter1=1 END
 
-  // // FLAT STUFF
-  // // Give a thac0 bonus based on original APR bonus
-  // // 4 APR = 3 APR + 1 thac0 + 1 damage
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11d parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11e parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11d parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11e parameter1=1 parameter2=0 END
+    // NOTE: For the FLAT and FINAL stuff, I'm catching a TON of ranged weapons (bows) - in early
+    // testing, I think this is because I'm accidentally upping APR to 3 (not just lowering it)
 
-  // // 5 APR = 3 APR + 2 thac0 + 2 damage
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11d parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11e parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11d parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11e parameter1=2 parameter2=0 END
+    // // FLAT STUFF
+    // // Give a thac0 bonus based on original APR bonus
+    // // 4 APR = 3 APR + 1 thac0 + 1 damage
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11d parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 opcode=0x11e parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11c parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11d parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 opcode=0x11e parameter1=1 parameter2=0 END
 
-  // // Cap it at set 3 APR
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 parameter1=3  END
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 parameter1=3  END
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 parameter1=3  END
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 parameter1=3  END
+    // // 5 APR = 3 APR + 2 thac0 + 2 damage
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11d parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 opcode=0x11e parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11c parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11d parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 opcode=0x11e parameter1=2 parameter2=0 END
 
-  // // FINAL STUFF (I guess like another FLAT STUFF modifier)
-  // // Give a thac0 bonus based on original APR bonus
-  // // 4 APR = 3 APR + 1 thac0 + 1 damage
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11c parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11d parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11e parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11c parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11d parameter1=1 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11e parameter1=1 parameter2=0 END
+    // // Cap it at set 3 APR
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=1 parameter1=3  END
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=1 parameter1=3  END
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=1 parameter1=3  END
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=1 parameter1=3  END
 
-  // // 5 APR = 3 APR + 2 thac0 + 2 damage
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11c parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11d parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11e parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11c parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11d parameter1=2 parameter2=0 END
-  // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11e parameter1=2 parameter2=0 END
+    // // FINAL STUFF (I guess like another FLAT STUFF modifier)
+    // // Give a thac0 bonus based on original APR bonus
+    // // 4 APR = 3 APR + 1 thac0 + 1 damage
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11c parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11d parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 opcode=0x11e parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11c parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11d parameter1=1 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 opcode=0x11e parameter1=1 parameter2=0 END
 
-  // // Cap it at set 3 APR
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 parameter1=3  END
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 parameter1=3  END
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 parameter1=3  END
-  // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 parameter1=3  END
+    // // 5 APR = 3 APR + 2 thac0 + 2 damage
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11c parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11d parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 opcode=0x11e parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11c parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11d parameter1=2 parameter2=0 END
+    // LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 opcode=0x11e parameter1=2 parameter2=0 END
+
+    // // Cap it at set 3 APR
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=4 match_parameter2=3 parameter1=3  END
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=5 match_parameter2=3 parameter1=3  END
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=9 match_parameter2=3 parameter1=3  END
+    // LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=0x1 match_parameter1=10 match_parameter2=3 parameter1=3  END
+  END
 BUT_ONLY
 
 // BEGIN ~Creature Adjustments~ DESIGNATED 2000 LABEL ahungry_tweaks_creatures
@@ -325,3 +330,53 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
     LPF DELETE_CRE_ITEM STR_VAR item_to_delete = "minhp1" END
   END
 BUT_ONLY
+
+// BEGIN ~Fix the stuck party~ DESIGNATED 9000 LABEL ahungry_tweaks_items_fff
+
+// // Support engine-specific display of strings
+// ACTION_IF (GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~) BEGIN
+//   OUTER_SPRINT display_string ~DisplayString~
+// END ELSE BEGIN
+//   OUTER_SPRINT display_string ~DisplayStringHead~
+// END
+
+
+// // Patches the current BCS resource.
+// DEFINE_PATCH_FUNCTION patch_script
+// INT_VAR
+//   patch_all = 0 // whether to patch everything, including NoAction() blocks
+// BEGIN
+//   DECOMPILE_AND_PATCH BEGIN
+//     SET x = 0
+//     REPLACE_EVALUATE
+//       ~\(RESPONSE #[0-9]+[%WNL%]+\)[ %TAB%]+\([^ %TAB%%WNL%]+\)~
+//       BEGIN
+//         SPRINT debug ~~
+//         PATCH_IF (patch_all != 0 OR NOT ~%MATCH2%~ STR_EQ ~NoAction()~) BEGIN
+//           SET x += 1
+//           SET strref = RESOLVE_STR_REF(~Running block %x% of %SOURCE_FILE%~) // Running block %x% of %SOURCE_FILE%
+//           SPRINT debug ~%display_string%(Myself,%strref%) %MATCH2%~
+//         END
+//       END
+//       ~\1 %debug%~
+//   END
+// END
+
+// COPY_EXISTING_REGEXP GLOB ~bg5400\.bcs~ ~override~
+//   TO_UPPER ~SOURCE_RES~
+//   PATCH_IF (NOT VARIABLE_IS_SET $broken_script(~%SOURCE_RES%~)) BEGIN
+//     LPF patch_script INT_VAR patch_all = 0 END
+//   END
+// BUT_ONLY
+
+// BEGIN ~Find all familiars~ DESIGNATED 10000 LABEL ahungry_tweaks_items_familiars
+
+// COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
+//   // Build up a list of everyone who uses this to be immune to death
+//   READ_BYTE  0x270 enemy_ally
+//   TO_LOWER SOURCE_RES
+
+//   PATCH_IF (enemy_ally = 3) BEGIN
+//     PATCH_PRINT ~%SOURCE_RES% is flagged as a familiar...~
+//   END
+// BUT_ONLY
