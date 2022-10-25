@@ -331,6 +331,19 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
   END
 BUT_ONLY
 
+BEGIN ~Add diamond to crossroads tree for Imoen banter~
+DESIGNATED 9000 LABEL ahungry_tweaks_items_diamond
+
+COPY_EXISTING "BG2700.are" ~override~
+  LPF DELETE_AREA_ITEM STR_VAR item_to_delete = "misc42" END
+  LPF ADD_AREA_ITEM
+    INT_VAR
+      container_to_add_to = 1
+    STR_VAR
+      item_to_add = "misc42"
+  END
+BUT_ONLY
+
 // BEGIN ~Fix the stuck party~ DESIGNATED 9000 LABEL ahungry_tweaks_items_fff
 
 // // Support engine-specific display of strings
