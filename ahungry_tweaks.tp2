@@ -380,13 +380,14 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   LPF ALTER_EFFECT
     INT_VAR silent=1
             match_opcode=0x107   // backstab (263)
-            match_parameter1=150 // Some mod makes Viper's Edge a 150x mod (lol)
+            // https://baldursgate.fandom.com/wiki/Viper%27s_Edge
+            match_parameter1=150 // Some NOT a mod makes Viper's Edge a 150x bs item
             match_parameter2=0
             opcode=0x16c // empty (a good PHer?)
   END
 
   // TODO: Try out matching on the (0 - 1) type value for the above to just undo the
-  // backstab penalized items.
+  // backstab penalized items (our current checks would break any bs bonus 4+).
 
   // Drop any negative or crazy BS values
   LPF DELETE_ITEM_EFFECT INT_VAR silent=1 opcode_to_delete=263 END
