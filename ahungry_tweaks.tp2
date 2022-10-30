@@ -344,7 +344,116 @@ COPY_EXISTING "BG2700.are" ~override~
   END
 BUT_ONLY
 
-// BEGIN ~Fix the stuck party~ DESIGNATED 9000 LABEL ahungry_tweaks_items_fff
+BEGIN ~Items: Give backstab bonuses based on type (smaller the weapon, bigger the bonus)~
+DESIGNATED 10000 LABEL ahungry_tweaks_items_ir_bs
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
+  READ_SHORT 0x1c item_type
+  READ_ASCII 0x22 item_animation
+  READ_BYTE  0x31 prof
+
+  // Set the items with backstab bonuses to a PHer opcode to avoid deletion
+  LPF ALTER_EFFECT
+    INT_VAR silent=1
+            match_opcode=0x107  // backstab (263)
+            match_parameter1=1
+            match_parameter2=0
+            opcode=0x16c // empty (a good PHer?)
+  END
+
+  LPF ALTER_EFFECT
+    INT_VAR silent=1
+            match_opcode=0x107  // backstab (263)
+            match_parameter1=2
+            match_parameter2=0
+            opcode=0x16c // empty (a good PHer?)
+  END
+
+  LPF ALTER_EFFECT
+    INT_VAR silent=1
+            match_opcode=0x107  // backstab (263)
+            match_parameter1=3
+            match_parameter2=0
+            opcode=0x16c // empty (a good PHer?)
+  END
+
+  LPF ALTER_EFFECT
+    INT_VAR silent=1
+            match_opcode=0x107   // backstab (263)
+            match_parameter1=150 // Some mod makes Viper's Edge a 150x mod (lol)
+            match_parameter2=0
+            opcode=0x16c // empty (a good PHer?)
+  END
+
+  // TODO: Try out matching on the (0 - 1) type value for the above to just undo the
+  // backstab penalized items.
+
+  // Drop any negative or crazy BS values
+  LPF DELETE_ITEM_EFFECT INT_VAR silent=1 opcode_to_delete=263 END
+  LPF DELETE_ITEM_EQEFFECT INT_VAR silent=1 opcode_to_delete=263 END
+
+  // // Now restore the ones we shoved into the empty opcode
+  LPF ALTER_EFFECT
+    INT_VAR silent=1
+            match_opcode=0x16c
+            opcode=0x107 // empty (a good PHer?)
+  END
+
+  // Now add bonuses based on the weapon type
+  // https://gibberlings3.github.io/iesdp/file_formats/ie_formats/itm_v1.htm#Header_ItemType
+  // PATCH_IF (item_type = 0x10 OR item_type = 0x13 OR item_type = 0x11) BEGIN
+  // PATCH_IF (prof = 0x60 OR prof = 0x5b OR prof = 0x5f OR prof = 0x73) BEGIN
+  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(DD\|SS\|CL\)" = 0) BEGIN
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR silent=1
+              opcode=0x107 // backstab (263)
+              parameter1=4 // Daggers, Short Swords, (Wakizashis, Ninja-Tos, Scimitar), and Clubs
+              parameter2=0
+              target=1
+              timing=2
+    END
+  END
+
+  // PATCH_IF (item_type = 0x14 OR item_type = 0x13 OR item_type = 0x11) BEGIN
+  // PATCH_IF (prof = 0x5a OR prof = 0x59 OR prof = 0x5e OR prof = 0x73) BEGIN
+  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(S1\|S3\|SC\|FS\)" = 0) BEGIN
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR silent=1
+              opcode=0x107 // backstab (263)
+              parameter1=3 // Long Swords, Bastard Swords, Katanas
+              parameter2=0
+              target=1
+              timing=2
+    END
+  END
+
+  //PATCH_IF (prof = 0x5c OR prof = 0x65 OR prof = 0x64 OR prof = 0x66 OR prof = 0x61) BEGIN
+  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(AX\|MC\|MS\|QS\|WH\)" = 0) BEGIN
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR silent=1
+              opcode=0x107 // backstab (263)
+              parameter1=2 // Axes, Maces, (Flail / Morning Stars), Quarterstaffs, and War Hammers
+              parameter2=0
+              target=1
+              timing=2
+    END
+  END
+
+  //PATCH_IF (prof = 0x62 OR prof = 0x5d OR prof = 0x63) BEGIN
+  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(SP\|S2\|HB\|FL\|WH\)" = 0) BEGIN
+    LPF ADD_ITEM_EQEFFECT
+      INT_VAR silent=1
+              opcode=0x107 // backstab (263)
+              parameter1=1 // Spear, Two Handed Sword, Halberd
+              parameter2=0
+              target=1
+              timing=2
+    END
+  END
+BUT_ONLY
+
+
+// Just random jibberish as a sample
 
 // // Support engine-specific display of strings
 // ACTION_IF (GAME_IS ~bg1 totsc iwd how totlm iwd2 pst~) BEGIN
