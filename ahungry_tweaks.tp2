@@ -2,6 +2,14 @@ BACKUP ~ahungry_tweaks/backup~
 AUTHOR ~Ahungry~
 VERSION 1.0
 
+AUTO_TRA ~ahungry_tweaks/lang/%s~
+
+LANGUAGE
+  ~English~
+  ~english~
+  ~ahungry_tweaks/lang/english/game.tra~
+  ~ahungry_tweaks/lang/english/weidu.tra~
+
 BEGIN ~Ahungry's Tweaks~ DESIGNATED 1 LABEL ahungry_tweaks_prelude
 REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet iwdee~) ~Game not supported.~
 
@@ -404,24 +412,11 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   // https://gibberlings3.github.io/iesdp/file_formats/ie_formats/itm_v1.htm#Header_ItemType
   // PATCH_IF (item_type = 0x10 OR item_type = 0x13 OR item_type = 0x11) BEGIN
   // PATCH_IF (prof = 0x60 OR prof = 0x5b OR prof = 0x5f OR prof = 0x73) BEGIN
-  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(DD\|SS\|CL\)" = 0) BEGIN
+  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(DD\|SS\|CL\|WH\|QS\)" = 0) BEGIN
     LPF ADD_ITEM_EQEFFECT
       INT_VAR silent=1
               opcode=0x107 // backstab (263)
-              parameter1=4 // Daggers, Short Swords, (Wakizashis, Ninja-Tos, Scimitar), and Clubs
-              parameter2=0
-              target=1
-              timing=2
-    END
-  END
-
-  // PATCH_IF (item_type = 0x14 OR item_type = 0x13 OR item_type = 0x11) BEGIN
-  // PATCH_IF (prof = 0x5a OR prof = 0x59 OR prof = 0x5e OR prof = 0x73) BEGIN
-  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(S1\|S3\|SC\|FS\)" = 0) BEGIN
-    LPF ADD_ITEM_EQEFFECT
-      INT_VAR silent=1
-              opcode=0x107 // backstab (263)
-              parameter1=3 // Long Swords, Bastard Swords, Katanas
+              parameter1=2 // Daggers, Short Swords (Wakizashis, Ninja-Tos, Scimitar), Clubs, War Hammer, Quarterstaffs
               parameter2=0
               target=1
               timing=2
@@ -429,28 +424,38 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm~ ~override~
   END
 
   //PATCH_IF (prof = 0x5c OR prof = 0x65 OR prof = 0x64 OR prof = 0x66 OR prof = 0x61) BEGIN
-  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(AX\|MC\|MS\|QS\|WH\)" = 0) BEGIN
+  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(MC\|MS\|FL\)" = 0) BEGIN
     LPF ADD_ITEM_EQEFFECT
       INT_VAR silent=1
               opcode=0x107 // backstab (263)
-              parameter1=2 // Axes, Maces, (Flail / Morning Stars), Quarterstaffs, and War Hammers
+              parameter1=1 // Maces, Morning Stars, Flail
               parameter2=0
               target=1
               timing=2
     END
   END
 
-  //PATCH_IF (prof = 0x62 OR prof = 0x5d OR prof = 0x63) BEGIN
-  PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(SP\|S2\|HB\|FL\|WH\)" = 0) BEGIN
-    LPF ADD_ITEM_EQEFFECT
-      INT_VAR silent=1
-              opcode=0x107 // backstab (263)
-              parameter1=1 // Spear, Two Handed Sword, Halberd
-              parameter2=0
-              target=1
-              timing=2
-    END
-  END
+  // PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(AX\|S1\|S3\|SC\|FS\)" = 0) BEGIN
+  //   LPF ADD_ITEM_EQEFFECT
+  //     INT_VAR silent=1
+  //             opcode=0x107 // backstab (263)
+  //             parameter1=0 // Axes, Long Swords/Bastard Swords, Katana, Scimitar, Flaming Sword
+  //             parameter2=0
+  //             target=1
+  //             timing=2
+  //   END
+  // END
+
+  // PATCH_IF ("%item_animation%" STRING_COMPARE_REGEXP "^\(SP\|S2\|HB\)" = 0) BEGIN
+  //   LPF ADD_ITEM_EQEFFECT
+  //     INT_VAR silent=1
+  //             opcode=0x107 // backstab (263)
+  //             parameter1=0 // Spear, Two Handed Sword, Halberd
+  //             parameter2=0
+  //             target=1
+  //             timing=2
+  //   END
+  // END
 BUT_ONLY
 
 
@@ -503,3 +508,12 @@ BUT_ONLY
 //     PATCH_PRINT ~%SOURCE_RES% is flagged as a familiar...~
 //   END
 // BUT_ONLY
+
+BEGIN @1 DESIGNATED 11000 LABEL ahungry_tweaks_fix_taerom_ankheg
+
+OUTER_SET taerom_general = STATE_WHICH_SAYS 1001 IN ~ahungry_tweaks/lang/%s/game.tra~ FROM ~taerom~
+
+ACTION_IF ("%taerom_general%" >= 0) BEGIN
+    PRINT ~Patching Taerom dialog.~
+    COMPILE EVALUATE_BUFFER ~ahungry_tweaks/dialogues/taerom.d~
+END
