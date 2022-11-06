@@ -517,3 +517,61 @@ ACTION_IF ("%taerom_general%" >= 0) BEGIN
     PRINT ~Patching Taerom dialog.~
     COMPILE EVALUATE_BUFFER ~ahungry_tweaks/dialogues/taerom.d~
 END
+
+BEGIN @2 DESIGNATED 12000 LABEL ahungry_tweaks_fix_minhp_npcs
+
+
+// We need to get the list of joinable NPCs and ensure we don't
+// set any of their gear as undroppable (maybe we can still make
+// some of it disappear though)
+ACTION_CLEAR_ARRAY joinable_npcs
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.gam~ ~override~
+  SET npc_size = 0x158 + 8
+  READ_LONG 0x30 npc_off
+  READ_LONG 0x34 npc_count
+
+  TO_LOWER SOURCE_RES
+  // PATCH_PRINT ~Looking at %SOURCE_RES% - npc count is: %npc_count%~
+
+  FOR (index = 0 ; index < npc_count ; ++index) BEGIN // searches through party members
+    READ_ASCII (npc_off + (npc_size * index) + 0xc) npc_name
+    // PATCH_PRINT ~%npc_name% detected as joinable via baldur.gam!~
+    DEFINE_ASSOCIATIVE_ARRAY joinable_npcs BEGIN "%npc_name%" => "x" END
+  END
+BUT_ONLY
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre~ ~override~
+    TO_LOWER SOURCE_RES
+
+    // Collect all joinable NPCs (thanks cdtweaks and CamDawg!)
+    PATCH_IF (SOURCE_SIZE > 0x2d3) BEGIN
+      READ_LONG 0x1cc "biography" ELSE 0
+      PATCH_IF (("%biography%" < 2147483647) AND ("%biography%" > 0)) BEGIN
+        // PATCH_PRINT ~%SOURCE_RES% detected as joinable via biography!~
+        DEFINE_ASSOCIATIVE_ARRAY joinable_npcs BEGIN "%SOURCE_RES%" => "x" END
+      END
+    END
+
+    // Try out deathvar approach (thanks Morpheus!)
+    READ_ASCII  0x280 deathvar
+    READ_BYTE   0x234 level
+    PATCH_IF (FILE_CONTAINS_EVALUATED(~pdialog.2da~ ~%deathvar%~)) AND (level > 0) BEGIN
+        // PATCH_PRINT ~%SOURCE_RES% detected as joinable via deathvar!~
+        DEFINE_ASSOCIATIVE_ARRAY joinable_npcs BEGIN "%SOURCE_RES%" => "x" END
+    END
+BUT_ONLY
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.cre$~ ~override~
+  TO_LOWER SOURCE_RES
+  PATCH_IF (VARIABLE_IS_SET $joinable_npcs("%SOURCE_RES%")) BEGIN
+    LPF DELETE_CRE_EFFECT INT_VAR opcode_to_delete=208 END
+  END
+BUT_ONLY
+
+// This actually seems to happen when his inventory is stuffed so
+// full by mods, the latest appended item pushes off his prior ones.
+BEGIN @3 DESIGNATED 13000 LABEL ahungry_tweaks_fix_missing_mine_key
+
+COPY_EXISTING ~davaeo.cre~ ~override~
+  ADD_CRE_ITEM ~misc83~ #0 #0 #0 ~IDENTIFIED~ ~INV16~
